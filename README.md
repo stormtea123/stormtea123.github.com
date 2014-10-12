@@ -1,3 +1,3 @@
-# 阿狼的github
+# Thunk的github
 
 基于jekyll的博客

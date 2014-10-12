@@ -8,7 +8,7 @@ pygments: true
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : 风流韵事
+title : Thunk
 tagline: Site Tagline
 author :
   name : Name Lastname

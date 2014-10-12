@@ -17,7 +17,6 @@
     <![endif]-->
 
 <!-- Le styles -->
-<link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
 <link href="{{ ASSET_PATH }}/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
 
 <!-- Le fav and touch icons -->
@@ -35,29 +34,27 @@
 <body>
 <div class="wrap">
     <aside class="sidebar">
-        <a class="brand" href="{{ HOME_PATH }}"><img src="/assets/themes/twitter/images/brand.png" alt="Go home" title="Go home" width="148" height="40"></a>
-        <div class="wolf"><img src="/assets/themes/twitter/images/wolf.jpg" alt="My weibo" title="My weibo" width="75" height="75"></div>
+        <a class="brand" href="{{ HOME_PATH }}"><img src="/assets/themes/twitter/images/brand.png" alt="Go home" title="Go home" width="250" height="40"></a>
+        <div class="me"><img src="/assets/themes/twitter/images/me.jpg" width="150" height="150"></div>
         <div class="earth"><img src="/assets/themes/twitter/images/earth.png" alt="" width="430" height="147"></div>
     </aside>
     <div class="navbar">
         <div class="container-narrow">
-            <nav class="nav">
+            <ul class="nav">
                 {% assign pages_list = site.pages %}
                 {% assign group = 'navigation' %}
                 {% include JB/pages_list %}
-            </nav>
+            </ul>
         </div>
     </div>
     <div class="container auto">
-
         <div class="main">
             <div class="content"> {{ content }} </div>
-            <hr>
-            <footer>
-                <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
-                    with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a> </p>
-            </footer>
         </div>
+        <footer class="footer">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
+                with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a> </p>
+        </footer>
     </div>
 </div>
 <div style="display:none;"><script src="http://s13.cnzz.com/stat.php?id=5793657&web_id=5793657" language="JavaScript"></script></div>
