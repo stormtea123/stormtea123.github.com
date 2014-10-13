@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>简单商品详情页面</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="wrap">
+	<h1>简单商品详情页面</h1>
+	<div class="procuct">
+		<div class="photo">
+			<div class="jqzoom"><img id="smallImg" src="images/color-1-small.jpg" width="200" height="200" jqimg="images/color-1-big.jpg"></div>
+			<div class="view-large"><a href="images/color-1-big.jpg" title="亲！这个是大图片，嗯嗯" class="thickbox" id="thickbox">点击查看大图片</a></div>
+			<div class="thumb">
+				<ul>
+					<li><img src="images/color-1.jpg" width="70" height="70" alt=""></li>
+					<li><img src="images/color-2.jpg" width="70" height="70" alt=""></li>
+					<li><img src="images/color-3.jpg" width="70" height="70" alt=""></li>
+				</ul>
+			</div>
+		</div>
+		<div class="select-color">
+			<h2>选择颜色</h2>
+			<ul>
+				<li><img src="images/color.jpg" title="彩色" alt="彩色"></li>
+				<li><img src="images/black.jpg" title="黑白" alt="黑白"></li>
+			</ul>
+			<p>你选择的型号为：<span id="color-info">彩色</span></p>
+		</div>
+		<div class="type auto">
+			<h2>选择型号</h2>
+			<ul>
+				<li>l</li>
+				<li>M</li>
+				<li>N</li>
+			</ul>
+			<p>你选择的型号为：<span id="type-info">M</span></p>
+		</div>
+		<div class="price">
+			<h2>选择你要购买的数量</h2>
+			<p class="amount">输入数量：<b id="lower">-</b>&nbsp;<input id="total-num" type="text" value="1">&nbsp;<b id="add">+</b></p>
+			<p >合计：<span id="total-price">20</span>元</p>
+		</div>
+		<div id="cart"><a href="#"><img src="images/cart.png" alt="" width="94" height="29"></a></div>
+		<div class="tab">
+			<div class="tab-hd">
+				<ul>
+					<li class="current"><a href="javascript:void(0)">产品介绍</a></li>
+					<li><a href="javascript:void(0)">规格参数</a></li>
+					<li><a href="javascript:void(0)">产品评价</a></li>
+				</ul>
+			</div>
+			<div class="tab-bd">
+							<div class="tab-info">京东商城向您保证所售商品均为正品行货，京东自营商品自带机打发票，与商品一起寄送。凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。京东商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！ </div>
+							<div class="tab-info">注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！ </div>
+							<div class="tab-info">京东商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是京东商城重要的经营资源，未经许可，禁止非法转载使用。
+
+				注：本站商品信息均来自于厂商，其真实性、准确性和合法性由信息拥有者（厂商）负责。本站不提供任何保证，并不承担任何法律责任。</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.jqzoom.js"></script>
+<script src="js/jquery.thickbox.js"></script>
+<script src="js/jquery.livequery.js"></script>
+
+<script>
+/**
+ * Date:2013n年5月13日
+ * URL:http://www.w3cmm.com/
+ */
+$(function() {
+	//放大镜效果
+	$(".jqzoom").jqueryzoom({
+		xzoom: 300,
+		//放大图的宽度(默认是 200)
+		yzoom: 300,
+		//放大图的高度(默认是 200)
+		offset: 10,
+		//离原图的距离(默认是 10)
+		position: "right",
+		//放大图的定位(默认是 "right")
+		preload: 1
+	});
+	//缩略图切换效果
+	$(".thumb li img").livequery("click", function() {
+		var imgSrc = $(this).attr("src");
+		var i = imgSrc.lastIndexOf(".");
+		var unit = imgSrc.substring(i);
+		imgSrc = imgSrc.substring(0, i);
+		var imgSrcBig = imgSrc + "-big" + unit;
+		var imgSrcSmall = imgSrc + "-small" + unit;
+		$("#smallImg").attr({
+			"src": imgSrcSmall,
+			"jqimg": imgSrcBig
+		});
+		$("#thickbox").attr("href", imgSrcBig);
+	});
+	//改变颜色
+	$(".select-color li img").click(function() {
+		var imgSrc = $(this).attr("src");
+		var i = imgSrc.lastIndexOf(".");
+		var unit = imgSrc.substring(i);
+		imgSrc = imgSrc.substring(0, i);
+		var url = imgSrc + ".html";
+		var imgSrcBig = imgSrc + "-1-big" + unit;
+		var imgSrcSmall = imgSrc + "-1-small" + unit;
+		$("#smallImg").attr({
+			"src": imgSrcSmall,
+			"jqimg": imgSrcBig
+		});
+		$("#thickbox").attr("href", imgSrcBig);
+		$("#color-info").text($(this).attr("alt"));
+		$(".thumb ul").empty().load(url);
+	});
+
+	//选择型号
+	$(".type li").click(function() {
+		$(this).addClass("select").siblings("li").removeClass("select");
+		$("#type-info").text($(this).text());
+	});
+	//购物车
+	$("#cart a").click(function() {
+		var infoSize = $("#type-info").text();
+		var infoColor = $("#color-info").text();
+		var infoNum = $("#total-num").val();
+		var dialog = "亲！感谢您的购买!\n" + "尺寸是：" + infoSize + "\n颜色是：" + infoColor + "\n数量是：" + infoNum;
+		if(confirm(dialog)) {
+			alert("亲！已经加入了购物车")
+		}
+		return false;
+	});
+
+	//改变价格
+	(function() {
+		var $totalPrice = $("#total-price");
+		var $price = $totalPrice.text()
+		var $total = $("#total-num");
+		var $add = $("#add");
+		var $lower = $("#lower");
+		var num = 1;
+		//改变加个函数
+
+
+		function changePrice() {
+			num = $total.val();
+			if(num <= 0) {
+				alert("亲！已经不能再减了！");
+				$total.val(1);
+				$totalPrice.text(1 * $price)
+				return;
+			}
+			if(num > 200) {
+				alert("亲！最多只能买200个！");
+				$total.val(200);
+				$totalPrice.text(200 * $price)
+				return;
+			}
+			$totalPrice.text(num * $price)
+		}
+		//改变输入框的值
+		$total.change(function() {
+			changePrice();
+		}).change();
+		//减少数量
+		$lower.click(function() {
+			$total.val(parseInt(num) - 1);
+			changePrice();
+		});
+		//增加数量
+		$add.click(function() {
+			$total.val(parseInt(num) + 1);
+			changePrice();
+		});
+	})();
+	//选项卡切换
+	(function() {
+		var $tabItem = $(".tab-hd li")
+		var $tabInfo = $(".tab-bd > div")
+		$tabInfo.eq(0).show().siblings().hide();
+		$tabItem.click(function() {
+			$(this).addClass("current").siblings().removeClass("current");
+			var index = $tabItem.index($(this));
+			$tabInfo.eq(index).show().siblings().hide();
+		}).hover(function() {
+			$(this).addClass("hover");
+		}, function() {
+			$(this).removeClass("hover");
+		})
+	})();
+})
+</script>
+</body>
+</html>

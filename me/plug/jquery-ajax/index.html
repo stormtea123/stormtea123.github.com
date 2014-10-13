@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery-Ajax动态加载</title>
+<style type="text/css">
+body, h1, p, ul, ol, li, dl, dt, dd, figure { margin: 0; padding: 0; }
+body { font: 12px/1.6 'Century Gothic', Arial; color: #3E3E3E; background: #fff; }
+body { font-size: 12px; font-family: tahoma, arial, \5b8b\4f53; color: #333; }
+h1, h2, h3 { font-family:Microsoft YaHei; }
+.header { padding:20px 0 10px; text-align:center; }
+.header h1 { font-size:50px; }
+.header p { color:red; }
+.stage { width:850px; margin:0 auto; padding-bottom:20px; }
+.stage ul { overflow:hidden; zoom:1; padding-bottom:5px; }
+.stage li { width:130px; float:left; _display:inline; margin:0 20px; padding:0; list-style:none; }
+.stage-pic { height:110px; padding:9px; border:solid 1px #bbb;  }
+.stage li p { font-size:12px; line-height:20px; padding:3px 0 10px; }
+.show-more { width:200px; height:30px; margin:0 auto; line-height:30px; border:solid 1px #382903; background:#f7e5aa; font-size:14px; text-align:center; cursor:pointer; }
+</style>
+<script type="text/javascript" language="javascript" src="jquery.js"></script>
+</head>
+<body>
+<div class="header">
+	<h1>向下拖动滚动条查看效果</h1>
+	<p>Ajax动态加载-该效果可实现点击获取更多内容和自动显示更多（需要去掉源代码里的注释）...</p>
+</div>
+<div class="stage" id="stage">
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<div class="show-more" id="show-more">点击显示更多>></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	loadMore();
+	//显示更多函数
+	function loadMore() {
+		$.ajax({
+			url: 'data.php',
+			dataType: 'json',
+			success: function(data) {
+				if(typeof data == 'object') {
+					var $row, iHeight, iTempHeight;
+					for(var i = 0, l = data.length; i < l; i++) {	
+						// 找出当前高度最小的列, 新内容添加到该列
+						iHeight = -1;
+						$('#stage li').each(function() {
+							iTempHeight = $(this).height();
+							if( iHeight == -1 || iHeight > iTempHeight) {
+								iHeight = iTempHeight;
+								$row = $(this);
+							}
+						})
+
+						$item = $('<div class="stage-pic"><img src="' + data[i].image + '" border="0" ></div><p>' + data[i].title + '</p>').hide();
+						$row.append($item);
+						$item.fadeIn();
+					}
+				}
+			}
+		});
+	}
+	//点击显示更多
+	$("#show-more").click(function(){
+		loadMore();
+	})
+
+	//当滚动到最底部以上100像素时，自动加载新内容
+	//$(window).bind("scroll", function(){
+	//	if($(document).height() - $(this).scrollTop() - $(this).height() < 100) {
+	//		loadMore();
+	//	};
+	//})
+});	
+</script>
+</body>
+</html>
+
+

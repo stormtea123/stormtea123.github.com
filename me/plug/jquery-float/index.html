@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>jQuery-智能浮动定位插件</title>
+<style type="text/css">
+body { font-size: 12px; font-family: tahoma, arial, \5b8b\4f53; color: #333; }
+h1, h2, h3 { font-family:Microsoft YaHei; }
+.descripition { width:400px; padding:10px; border:dashed 1px #ccc; margin:100px auto 0; }
+.float {width:80px; padding:10px; border:1px solid #ffecb0; background-color:#fffee0; box-shadow:1px 1px 2px rgba(0,0,0,.2); }
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+</head>
+<body>
+<div class="descripition">
+	<h1>智能浮动定位(jQuery)-插件</h1>
+	<p>下拉滚动条查看效果</p>
+	<div class="float" id="float">哥不想动了… </div>
+</div>
+<div style="height:1000px;"></div>
+<script type="text/javascript">
+/**
+ * URL : http://www.w3cmm.com
+ * DATE : 2012年9月29日
+ */
+;(function ($) {
+    $.fn.extend({
+        smartFloat: function () {
+            var obj = $(this);
+            var top = obj.position().top,
+                pos = obj.css("position");
+            $(window).bind("scroll", function () {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+                    if (typeof XMLHttpRequest != "undefined") {
+                        obj.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        obj.css({
+                            position: "absolute",
+                            top: scrolls
+                        });
+                    }
+                } else {
+                    obj.css({
+                        position: pos,
+                        top: top
+                    });
+                }
+            })
+        }
+    });
+})(jQuery);
+
+$(function () {
+    //调用
+    $("#float").smartFloat();
+})
+</script>
+</body>
+</html>
