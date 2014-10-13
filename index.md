@@ -11,7 +11,7 @@ tagline:
   <li class="article-item">
     <h2 class="article-item-tit">
       {% if post.link == null %}
-        <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+        &gt;<a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
       {% else %}
         <a href="{{ post.link }}" target="_blank">{{ post.title }}</a>
       {% endif %}
