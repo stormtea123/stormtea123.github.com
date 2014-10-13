@@ -10,7 +10,7 @@ body { font:14px/1.5 Corbel, "Helvetica Neue", Helvetica, Arial; color: #3E3E3E;
 html, body { min-height:100%; }
 html { -webkit-text-size-adjust: none; }
 header, footer, aside, article, section, hgroup, nav, figure { display: block; }
-h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; font-family:"Century Gothic","Microsoft YaHei"; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 ol, ul {  }
 del { text-decoration: line-through; }
 table { border-collapse: collapse; border-spacing: 0; }
@@ -47,18 +47,17 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .tag_box a span { vertical-align: super; font-size: 0.8em; }
 .tag_box a:hover { background-color: #e5e5e5; }
 .tag_box a.active { background: #57A957; border: 1px solid #4c964d; color: #FFF; }
-
+/*===*/
+.navbar { padding:10px; }
+.navbar .nav { min-width:120px; float: right; }
+.navbar .nav a { text-decoration:underline; }
+/*===*/
 .sidebar { min-width:430px; height:100%; position:fixed; left:0; top:0; background:url("../images/sidebar.jpg") no-repeat 0 0; background-size:100% 100%; }
 .brand { position:absolute; top:80px; right:35px; }
 .me { width:150px; position:absolute; top:150px; right:50px; opacity:0.8; }
 .earth { height:147px; position:fixed; left:0; bottom:-5px; }
 .earth img { max-width:100%; }
-.container { margin-left:460px; max-width:750px; overflow:hidden; }
-
-/*===*/
-.navbar { padding:10px; }
-.navbar .nav { min-width:120px; float: right; }
-.navbar .nav a { text-decoration:underline; }
+.side { margin-left:460px; max-width:750px; overflow:hidden; }
 /*===*/
 .main { overflow:auto; padding-bottom:20px; }
 .main h1 { font-size:3em; font-weight:bold; padding:20px 0 10px; }
@@ -81,7 +80,7 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .page_bd p code { padding: 2px 4px; font-size: 90%; color: #c7254e; white-space: nowrap; background-color: #f9f2f4; border-radius: 4px; }
 /*===*/
 .article-item { padding:2px 0; }
-.article-item h2.article-item-tit { display:inline-block; margin:0; font-family:'Open Sans',"Helvetica Neue", Helvetica, Arial;  font-weight:normal; }
+.article-item h2.article-item-tit { display:inline-block; margin:0; font:14px 'Open Sans',"Helvetica Neue", Helvetica, Arial;  font-weight:normal; }
 .article-item h2.article-item-tit a { text-decoration:underline;  }
 .article-summary { padding-left:40px; }
 /*===*/
