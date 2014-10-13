@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript修复png透明</title>
+<style>
+@import url('import.css');
+html,body { font-size:90%; font-family:georgia; color: #333; }
+h1, h2, h3 { font-family: Microsoft YaHei; }
+body { background:#EEE; }
+h1 { font-size:4em; }
+h1 b { color:red; }
+.wrap { text-align:center; }
+.caption p { color:red; }
+.flying { display:inline-block; width:256px; height:256px; background:url(images/flying.png) no-repeat left top; }
+</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="caption">
+		<h1>此JavaScript脚本仅运行在<b>IE6</b>平台</h1>
+		<p>--针对HTML中插入的图片、样式背景图片、导入样式图片进行修复--</p>
+	</div>
+	<div class="main"><span class="bird"><a href="#"><img src="images/bird.png" alt="" width="120" height="104" id="nima" class="niba"/></a></span><span class="flying"></span><span class="wolf"></span></div>
+</div>
+<script>
+function fixMSIEPng() {
+	if(!document.body.filters) {
+		//不是MSIE
+		return;
+	}
+	if(7 <= parseFloat(navigator.appVersion.split("MSIE")[1])) {
+		//7.0以上支持PNG
+		return;
+	}
+	if(document.images) {
+		var images = document.images;
+		var img = null;
+		for(var i = images.length - 1; img = images[i]; i--) {
+			//检查是否PNG文件
+			if(img.src && img.src.substring(img.src.length - 3, img.src.length).toLowerCase() !== "png") {
+				continue;
+			}
+			//为外部元素构建style属性
+			var inlineStyle = "";
+			if(img.align == "left" || img.align == "right") {
+				inlineStyle += "float:" + img.align + ";";
+			}
+			if(img.parentElement.nodeName == "A") {
+				inlineStyle += "cursor:hand;";
+			}
+			inlineStyle += "display:inline-block;";
+			if(img.style && img.style.cssText) {
+				inlineStyle += img.style.cssText;
+			}
+			img.outerHTML = '<span ' + (img.id ? 'id = "' + img.id + '"' : '') + (img.className ? 'class = "' + img.className + '"' : '') + ' style = "width:' + img.width + 'px; height:' + img.height + 'px;' + inlineStyle + 'filter:progid:DXImageTransform.Microsoft' + '.AlphaImageLoader(src=\'' + img.src + '\', sizingMethod=\'scale\');"></span>';
+		}
+	}
+	//设置符合条件元素的样式
+	function addFilters(e) {
+		if (e.style && e.style.background && !e.style.filter) {
+			var src = null;
+			if(src = e.style.backgroundImage.match(/^url\((.*\.png)\)/i)){
+				e.style.backgroundColor = 'transparent';
+				e.style.backgroundImage = "url()";
+				e.style.filter = 'progid:DXImageTransform.Microsoft.' + 'AlphaImageLoader(src=\'' + src[1] + '\',sizingMethod=\'' + ((e.style.width && e.style.height) ? 'scale' : 'crop') + '\')';
+			}
+		}
+	}
+	//将addFilters方法应用到样式表
+	function processRules(styleSheet) {
+		for(var i in styleSheet.rules) {
+			addFilters(styleSheet.rules[i]);
+		}
+		if(styleSheet.imports) {
+			for(var j in styleSheet.imports) {
+				processRules(styleSheet.imports[j]);
+			}
+		}
+	}
+	//处理每个样式表
+	var styleSheets = document.styleSheets;
+	for(var i = 0; i < styleSheets.length; i++) {
+		processRules(styleSheets[i]);
+	}
+	//修复嵌入的样式属性
+	if(document.all) {
+		var all = document.all;
+		for(var i = 0; i < all.length; i++) {
+			addFilters(all[i]);
+		}
+	}
+}
+if(window.attachEvent) {
+	window.attachEvent("onload", fixMSIEPng)
+};
+</script>
+</body>
+</html>

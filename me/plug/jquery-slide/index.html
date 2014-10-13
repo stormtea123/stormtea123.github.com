@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery-焦点图插件</title>
+<style type="text/css">
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, form, input, textarea, button, fieldset, legend, ul, ol, li, dl, dt, dd, th, td { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+body { font-size: 12px; font-family: Arial; color: #333; }
+h1, h2, h3 { font-family: Microsoft YaHei; }
+.auto { overflow: hidden; zoom: 1; }
+/*正文样式*/
+.wrap { width: 750px; margin:0 auto; }
+.caption { padding:30px 0 10px; text-align:center; }
+.caption h1 { font-size:50px; }
+.caption p { line-height:22px; color:red; }
+.slide { width:750px; overflow:hidden; position:relative;}
+.slide-panel { height:350px; overflow:hidden; background:#EEEEEE; }
+.slide-panel ul { height:350px; position:relative; }
+.slide-panel li { width:750px; height:350px;  float:left;  }
+.slide-pager { padding:6px 0; text-align:center; overflow:hidden; }
+.slide-pager span { width:10px; height:10px; border-radius:5px; display:inline-block; margin:3px; background:#593325; cursor:pointer; }
+.slide-pager .current { display:inline-block; background:#FF5A00; }
+.pre-next { width:83px; height:90px; cursor:pointer; font-size:180px; line-height:350px; display:none; position:absolute; top:130px; }
+.pre { left:0; background:url(images/pre.png) no-repeat left top; }
+.next { right:0; background:url(images/next.png) no-repeat left top; }
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="caption">
+        <h1>jQuery焦点图插件</h1>
+        <p>鼠标放移动到图片上，出现左右切换按钮...</p>
+    </div>
+    <div class="slide" id="slide">
+        <div class="slide-panel" id="slidepanel">
+            <ul>
+                <li><img src="images/1.jpg" width="750" height="350"></li>
+                <li><img src="images/2.jpg" width="750" height="350"></li>
+                <li><img src="images/3.jpg" width="750" height="350"></li>
+                <li><img src="images/4.jpg" width="750" height="350"></li>
+            </ul>
+        </div>
+        <div class="slide-pager" id="slidepager"></div>
+        <div class="pre-next pre"></div>
+        <div class="pre-next next"></div>
+    </div>
+</div>
+<script type="text/javascript">
+/**
+ * URL : http://www.w3cmm.com
+ * DATE : 2012年11月26日
+ */
+;(function($) {
+    $.fn.extend({
+        slideAndClick: function(options) {
+            options = $.extend({
+                panel: null,
+                pager: null,
+                preNext: ".pre-next",
+                pre: ".pre",
+                next: ".next"
+            }, options);
+            var obj = $(this);
+            var $panel = $(options.panel, this);
+            var $pager = $(options.pager, this);
+            var $preNext = $(options.preNext, this);
+            var $pre = $(options.pre, this);
+            var $next = $(options.next, this);
+            var len = $panel.find("li").size(); //获取焦点图个数
+            var index = 0; //默认序号
+            //插入翻页按钮
+            (function() {
+                var pagerChild = '';
+                for(var i = 0; i < len; i++) {
+                    pagerChild += "<span></span>";
+                }
+                $pager.append(pagerChild);
+            })();
+
+            var $pagerItem = $pager.find("span"); //翻页按钮
+            $pagerItem.eq(0).addClass("current");
+            //显示按钮对应的图片
+            $pagerItem.hover(function() {
+                index = $pagerItem.index(this);
+                showPic(index);
+
+            });
+            //鼠标划上去显示按钮
+            obj.hover(function() {
+                $preNext.show().css("opacity", 0.5);
+            }, function() {
+                $preNext.hide();
+            });
+            //向右翻页
+            $next.bind("click", function() {
+                index += 1;
+                if(index == len) {
+                    index = 0;
+                }
+                showPic(index);
+            })
+            //向左翻页
+            $pre.bind("click", function() {
+                index--;
+                if(index == -1) {
+                    index = len - 1;
+                }
+                showPic(index);
+            })
+
+            //显示指定序列的图片
+            showPic = function(index) {
+                $panel.find("li").fadeOut().eq(index).fadeIn();
+                //让当前翻页按钮高亮
+                $pagerItem.removeClass("current").eq(index).addClass("current");
+            }
+
+        }
+    })
+})(jQuery);
+
+//实例应用演示
+$(function() {
+    $("#slide").slideAndClick({
+        panel: "#slidepanel",
+        pager: "#slidepager"
+    });
+})
+</script>
+<div class="test"></div>
+</body>
+</html>

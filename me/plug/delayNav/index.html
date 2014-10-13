@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>javascript延迟菜单</title>
+<style type="text/css">
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, form, input, textarea, button, fieldset, legend, ul, ol, li, dl, dt, dd, th, td { margin: 0; padding: 0; }
+body { font:12px tahoma, arial, \5b8b\4f53; color: #3E3E3E; background: #fff; }
+html { -webkit-text-size-adjust: none; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
+ol, ul { list-style: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: none; }
+button, input, select, textarea { font-size:12px; font-family:Helvetica, Hiragino Sans GB, Arial, sans-serif; }
+a { color: #444; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.auto:after, ul:after { height: 0; display: block; visibility: hidden; content: "."; clear: both; }
+.auto, ul { _zoom: 1; }
+/**/
+.caption { padding:0 0 20px; }
+.caption h1 { font:bold 50px/1.5 Microsoft YaHei; text-align:center; }
+.caption p { color:red; text-align:center; }
+.wrap { width:600px; margin:0 auto; padding-top:10px; }
+.nav { width:598px; border:solid 1px #EAEAEA; border-top:solid 1px #D2D2D2; border-radius:3px; background:#f3f4f6; }
+.nav li { margin:2px 0 2px 5px; float:left; _display:inline; font:16px/32px Microsoft YaHei; border:solid 1px #c1c6ca; border-radius:2px; box-shadow:0 1px #e2e3e5; background-color:#f4f4f4;  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f3f3f3', GradientType='0');
+background-image: -webkit-linear-gradient(#fff, #f3f3f3); background-image: -moz-linear-gradient(#fff, #f3f3f3); background-image: -o-linear-gradient(#fff, #f3f3f3); background-image: -ms-linear-gradient(#fff, #f3f3f3); background-image: linear-gradient(#fff, #f3f3f3); position:relative; }
+.nav-parent { display:inline-block; padding:0 8px; }
+.nav-child { display:none; width:250px; height:23px; padding:2px 7px; font-size:14px; line-height:23px; position:absolute; top:43px; border:solid 1px #EAEAEA; background:#f3f4f6; }
+.nav-child a { color:red; text-decoration:underline; }
+.nav-arrow { width:12px; height:12px; line-height:12px; overflow:hidden; font-size:12px; font-family: simsun; font-weight:bold; position:absolute; top:-6px; }
+.nav-arrow-1 { color:#EAEAEA; position: absolute; left:0; top:0; }
+.nav-arrow-2 { color:#f3f4f6; position: absolute; left:0; top:1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="caption">
+		<h1>延迟菜单</h1>
+		<p>鼠标划到菜单上，再离开子菜单延迟消失，个人练习使用</p>
+	</div>
+	<div class="nav">
+		<ul>
+			<li><a class="nav-parent" href="#">虎扑体育</a>
+				<p class="nav-child"><span class="nav-arrow"><b class="nav-arrow-1">◆</b><b class="nav-arrow-2">◆</b></span>我是<a href="http://www.w3cmm.com/">阿狼</a>，跪求前端开发工作一份！</p>
+			</li>
+			<li><a class="nav-parent" href="#">NBA</a>
+				<p class="nav-child"><span class="nav-arrow"><b class="nav-arrow-1">◆</b><b class="nav-arrow-2">◆</b></span>我是<a href="http://www.w3cmm.com/">阿狼</a>，跪求前端开发工作一份！</p>
+			</li>
+			<li><a class="nav-parent" href="#">中国篮球</a>
+				<p class="nav-child"><span class="nav-arrow"><b class="nav-arrow-1">◆</b><b class="nav-arrow-2">◆</b></span>我是<a href="http://www.w3cmm.com/">阿狼</a>，跪求前端开发工作一份！</p>
+			</li>
+			<li><a class="nav-parent" href="#">国际足球</a>
+				<p class="nav-child"><span class="nav-arrow"><b class="nav-arrow-1">◆</b><b class="nav-arrow-2">◆</b></span>我是<a href="http://www.w3cmm.com/">阿狼</a>，跪求前端开发工作一份！</p>
+			</li>
+			<li><a class="nav-parent" href="#">中国足球</a>
+				<p class="nav-child"><span class="nav-arrow"><b class="nav-arrow-1">◆</b><b class="nav-arrow-2">◆</b></span>我是<a href="http://www.w3cmm.com/">阿狼</a>，跪求前端开发工作一份！</p>
+			</li>
+			<li><a class="nav-parent" href="#">赛车</a> </li>
+			<li><a class="nav-parent" href="#">网球</a> </li>
+			<li><a class="nav-parent" href="#">装备</a> </li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	//获取类
+	function getElementsByClassName(className, tag, parent) {
+	    parent = parent || document;
+	    //查找所有匹配的标签
+	    var allTags = (tag == "*" && parent.all) ? parent.all : parent.getElementsByTagName(tag);
+	    var matchingElements = new Array();
+	    //创建正则表达式，来判断className是否正确
+	    className = className.replace(/\-/g, "\\-");
+	    var regex = new RegExp("(^|\\s)" + className + "(\\s|$)");
+	    var element;
+	    //检查每个元素
+	    for(var i = 0; i < allTags.length; i++) {
+	        element = allTags[i];
+	        if(regex.test(element.className)) {
+	            matchingElements.push(element);
+	        }
+	    }
+	    //返回任何匹配的元素
+	    return matchingElements;
+	};
+	(function(){
+		var navParent = getElementsByClassName("nav-parent", "a");
+		var navChild = getElementsByClassName("nav-child", "p");
+		var timer = null;
+		for (var i=0; i<navParent.length; i++) {
+			navParent[i].index = i;
+			//父菜单绑定划上去事件
+			navParent[i].onmouseover = function() {
+				//隐藏全部
+				for (var j=0; j<navChild.length; j++) {
+					navChild[j].style.display = "none";
+				}
+				if (navChild[this.index]) {
+					navChild[this.index].style.display = "block";
+				}
+			};
+			//父菜单绑定离开事件
+			navParent[i].onmouseout = function() {
+				var that = this;
+				timer = setTimeout(function(){
+					if (navChild[that.index]) {
+						navChild[that.index].style.display = "none";
+					}
+				},1000)
+			};
+		}
+		//分别对子菜单绑定事件
+		for(j = 0; j < navChild.length; j++) {
+			navChild[j].index = j;
+			navChild[j].onmouseover = function() {
+				clearInterval(timer);
+			};
+			navChild[j].onmouseout = function() {
+				var that = this;
+				timer = setTimeout(function() {
+					if(navChild[that.index]) {
+						navChild[that.index].style.display = "none";
+					}
+				}, 1000)
+			}
+		}
+	})();
+</script>
+</body>
+</html>

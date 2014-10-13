@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>科学测算你和TA的缘分指数，史上最准的缘分测试</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+html, body { font-size:90%; }
+h1 { margin: 0 auto; padding: 0; text-align: center; font-size:4em; font-family:微软雅黑; }
+.love-wrap { background-image: url(images/back2.jpg); background-repeat: no-repeat; height: 500px; width: 750px; margin:0 auto; }
+.love-hd { text-align:center; padding:70px 0 30px; }
+.love-bd { width: 450px; margin-right: 145px; margin-left: 145px; margin-top:50px; margin-bottom: 10px; }
+#apDiv2 { position: absolute; width: 750px; height: 500px; z-index: 2; }
+#apDiv3 { position: absolute; width: 750px; height: 500px; z-index: 1; background-color: #000000; filter: Alpha(Opacity=50); }
+.love-name {  text-align: center; font-size: 14px; color: #550000; font-weight: bold; line-height: 1.5em; }
+.love-txt { width: 167px; height:34px; line-height:34px; font-size:14px; font-weight:bold; color:#550000; text-align:center; background: url(images/txt1.jpg) no-repeat left top; border:none; }
+.love-submit { width:200px; height:40px; border:none; background:url(images/cheshi2.gif) no-repeat left top; cursor:pointer; }
+.tip { width:450px; margin:0 auto; text-indent:2em; line-height:1.5em; color:#666666; }
+.footer { width:750px; height:30px; margin:0 auto; text-align:center; padding:0 0 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+	<form action="mail.php" method="post" id="myForm" >
+		<h1>科学计算你和TA的缘分指数</h1>
+		<div class="love-wrap">
+			<div style="display:none" id="showAP">
+				<div id="apDiv2">
+					<div id="apDiv3"></div>
+					<div id="apDiv2">
+						<table width="750" cellspacing="200" cellpadding="0">
+							<tr>
+								<td bordercolor="#CC3300" bgcolor="#FFFFFF"><div align="center"><br />
+									<br />
+									<span class="STYLE9">正在计算当中……</span><br />
+									<br />
+									<br />
+								</div></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="love">
+				<div class="love-hd"><img src="images/title.gif" width="315" height="112" /></div>
+				<div class="love-bd">
+					<table width="380" border="0" cellspacing="0" cellpadding="5">
+						<tr>
+							<td class="love-name">输入你的姓名</td>
+							<td></td>
+							<td class="love-name">你喜欢的人的姓名</td>
+						</tr>
+						<tr>
+							<td><input name="name1" type="text" class="love-txt" id="yourName" maxlength="4" /></td>
+							<td width="5"></td>
+							<td><input name="name2" type="text" class="love-txt" id="loverName" maxlength="4" /></td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center"><input type="submit" value="" class="love-submit"></td>
+						</tr>
+					</table>
+				</div>
+				<p class="tip">根据去年10万份恋人的调查报告，利用统计概率学原理建立与姓名关联的概率数据库，可以称得上是迄今为止最准的缘分测试。</p>
+			</div>
+		</div>
+	</form>
+</div>
+<script language="JavaScript">
+var EventUtil={addHandler:function(a,c,b){if(a.addEventListener){a.addEventListener(c,b,false);}else{if(a.attachEvent){a.attachEvent("on"+c,b);}else{a["on"+c]=b;
+}}},getEvent:function(a){return a?a:window.event;},preventDefault:function(a){if(a.preventDefault){a.preventDefault();}else{a.returnValue=false;}}};function isFilled(a){return(a.value.length>1&&a.value!=a.placeholder);
+}function validateForm(c){for(var b=0;b<c.elements.length;b++){var a=c.elements[b];if(a.getAttribute("type")=="text"){if(!isFilled(a)){alert("您输入的可能有误！");
+return false;}}}return true;}var form=document.getElementById("myForm");EventUtil.addHandler(form,"submit",function(a){a=EventUtil.getEvent(a);if(!validateForm(this)){EventUtil.preventDefault(a);
+}else{document.getElementById("showAP").style.display="block";setTimeout(function(){form.submit();},3000);EventUtil.preventDefault(a);}});
+</script>
+<div style="display:none;"><script src="http://s96.cnzz.com/stat.php?id=4923623&web_id=4923623" language="JavaScript"></script></div>
+</body>
+</html>

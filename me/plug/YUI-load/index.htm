@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width" />
+<title>YUI 加载内容到节点</title>
+<style type="text/css">
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, li, dl, dt, dd, th, td { margin: 0; padding: 0; }
+body { font:12px tahoma, arial, \5b8b\4f53; color: #3E3E3E; background: #fff; }
+html { -webkit-text-size-adjust: none; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
+ol, ul { list-style: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+a img { border: none; }
+button, input, select, textarea { font-size:12px; font-family:Helvetica, Hiragino Sans GB, Arial, sans-serif; }
+.auto:after, ul:after { height: 0; display: block; visibility: hidden; content: "."; clear: both; }
+.auto, ul { _zoom: 1; }
+/**/
+.wrap { max-width:468px; margin:0 auto; padding-top:10px; }
+.caption { padding:0 0 10px; }
+.caption h1 { font:bold 50px/1.5 Microsoft YaHei; text-align:center; }
+.caption p {text-align:center; color:red; line-height:22px; }
+.content { min-height:90px; padding:10px 10px 20px; border:solid 1px #CCC; border-radius:3px; font-size:14px; line-height:22px;  text-align:center; }
+.load-nav { padding-top:8px; text-align:center; }
+#load-btn { line-height:27px; font-size:14px; padding:0 8px; border:solid 1px #3079ED; color:#fff; background-color:#4D90FE; background-image:linear-gradient(#528eec, #4787ED); cursor:pointer; }
+#load-btn:active { background:#357AE8; border:solid 1px #3079ED; box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset; }
+#load-btn:focus { box-shadow:0 0 0 1px #FFFFFF inset; }
+</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="caption">
+		<h1>加载内容到节点</h1>
+		<p>点击加载按钮异步加载求职信息</p>
+	</div>
+    <div id="content" class="content">
+        <p>...信息将要在此处被加载...</p>
+    </div>
+    <div class="load-nav">
+        <button id="load-btn">点击加载信息</button>
+    </div>
+	
+</div>
+<script src="http://yui.yahooapis.com/3.10.3/build/yui/yui-min.js"></script>
+<script type="text/javascript">
+    YUI().use('node-load','transition',function(Y){
+        
+        Y.one('#load-btn').on("click", function(){
+            Y.one('#content').load('content.html');
+
+            Y.one('#content').transition({
+                easing: 'ease-out',
+                duration: 2, //秒
+                borderColor: '#AAA'
+            });
+        });
+    })
+
+</script>
+</body>
+</html>

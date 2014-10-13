@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery-模拟select插件</title>
+<style type="text/css">
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, form, input, textarea, button, fieldset, legend, ul, ol, li, dl, dt, dd, th, td { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+body { font: 12px/1.5 '微软雅黑', Arial; color: #3E3E3E; background: #fff; }
+.tip { color:red; }
+.beautifySelect { width:200px; }
+.tzSelect { height: 34px; position: relative; margin: 10px 0; }
+.selectBox {  width: 100%; height: 100%;   position: absolute; background: url("images/select-bg.png") no-repeat 174px center; font: 13px/34px "Lucida Sans Unicode", "Lucida Grande", sans-serif; text-align: center; text-shadow: 1px 1px 0 #EEEEEE; color: #666666; cursor: pointer; border-radius: 3px; border:solid 1px #bbb; }
+.selectBox:hover, .tzSelect .selectBox.expanded { color: #2c5667; text-shadow: 1px 1px 0 #9bc2d0; }
+.tzSelect .dropDown { position: absolute; top: 34px; left: 0; width: 100%; border: 1px solid #bbb; background:#fff; z-index: 1000; box-shadow: 0 0 4px #bbb; }
+.tzSelect li { cursor: pointer; padding: 6px; text-align: center; }
+.tzSelect li:hover { background-color: #eee; }
+.hasDetails li { height: 85px; position: relative; padding: 0; text-align: left; }
+.hasDetails li span { left: 88px; position: absolute; top: 27px; }
+.hasDetails li i { color: #999999; display: block; font-size: 12px; }
+.hasDetails li img { left: 9px; position: absolute; top: 13px; }
+</style>
+</head>
+<body>
+<h1>jquery-模拟select插件</h1>
+<p class="tip">注：该插件参考别人代码较多,点击出现下拉菜单</p>
+<select id="select-2" class="beautifySelect">
+    <option value="" selected="selected" data-skip="1">选择地区</option>
+    <option value="">中国</option>
+    <option value="">韩国</option>
+    <option value="">日本</option>
+    <option value="">美国</option>
+    <option value="">俄罗斯</option>
+</select>
+<p>带图片、详情</p>
+<select id="select-1" class="beautifySelect">
+    <option value="0" selected="selected" data-skip="1">选择你的产品</option>
+    <option value="1" data-icon="images/iphone.png" data-html-text="iPhone 4&lt;i&gt;in stock&lt;/i&gt;">iPhone 4</option>
+    <option value="2" data-icon="images/ipod.png" data-html-text="iPod &lt;i&gt;in stock&lt;/i&gt;">iPod</option>、
+</select>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+/**
+ * URL:http://www.w3cmm.com
+ * DATE:2012年10月9日
+ */
+;(function($){
+    $.fn.extend({
+        beautifySelect: function(options) {
+            options = $.extend ({
+                render : function(option){
+                    return $("<li>",{
+                        html : option.text()
+                    });
+                },
+                className : ''
+            }, options);
+            return this.each(function(){
+                var obj = $(this);
+                var selectBoxContainer = $('<div>',{
+                    width       : obj.outerWidth(),
+                    className   : 'tzSelect',
+                    html        : '<div class="selectBox"></div>'
+                });
+
+                var dropDown = $('<ul>',{className:'dropDown'});
+                var selectBox = selectBoxContainer.find('.selectBox');
+                if(options.className){
+                    dropDown.addClass(options.className);
+                }
+                //遍历option
+                obj.find("option").each(function(i){
+                    var option = $(this);
+                    if(i==obj.attr('selectedIndex')){
+                        selectBox.html(option.text());
+                    }
+                    if(option.data('skip')){
+                        return true;
+                    }
+                    var li = options.render(option);
+                    li.click(function(){
+                        selectBox.html(option.text());
+                        dropDown.trigger("hide");
+                        obj.val(option.val());
+                        
+                        return false;
+                    });
+                    dropDown.append(li);
+                });
+
+                //插入元素
+                selectBoxContainer.append(dropDown.hide());
+                obj.hide().after(selectBoxContainer);
+
+                dropDown.bind('show',function(){            
+                    if(dropDown.is(':animated')){
+                        return false;
+                    }
+                    selectBox.addClass('expanded');
+                    dropDown.slideDown();
+                    
+                }).bind('hide',function(){
+                    
+                    if(dropDown.is(':animated')){
+                        return false;
+                    }
+                    selectBox.removeClass('expanded');
+                    dropDown.slideUp();
+                    
+                }).bind('toggle',function(){
+                    if(selectBox.hasClass('expanded')){
+                        dropDown.trigger('hide');
+                    }
+                    else dropDown.trigger('show');
+                });
+                
+                selectBox.click(function(){
+                    dropDown.trigger('toggle');
+                    return false;
+                });
+                
+                $(document).click(function(){
+                    dropDown.trigger('hide');
+                });
+
+            });
+        }
+    });
+}(jQuery));
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#select-1').beautifySelect({
+            render : function(option){
+                return $('<li>',{
+                    html:   '<img src="'+option.data('icon')+'" /><span>'+
+                            option.data('html-text')+'</span>'
+                });
+            },
+            className : 'hasDetails'
+        });
+
+        $('#select-2').beautifySelect();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>烟花效果</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript"></script>
+<style>
+body { font-size:81%; font-family:georgia; color: #000; background: black; font-family: Acme; overflow:hidden; }
+h1, h2, h3 { font-family: georgia,Microsoft YaHei; font-weight:normal; margin:0; }
+h1 { font-size:22px; }
+.gradient { width:960px; height:512px; position:relative; margin:-150px auto 0; text-align:center;
+background-image: -webkit-radial-gradient(ellipse closest-side, rgba(201,201,201,0.1) 5%,#000000 100%);
+background-image: -moz-radial-gradient(ellipse closest-side, rgba(201,201,201,0.1) 5%,#000000 100%);
+      }
+.tip { width:400px; height:40px; line-height:40px; background:rgba(171,0,0,0.8); color:#fff; border-radius:10px; text-align:center; position:fixed; left:50%; margin-left:-200px; bottom:5px; }
+.color-fire {}
+</style>
+</head>
+<body>
+<div class="gradient"></div>
+<div class="tip">
+	<h1>JavaScript烟花效果</h1>
+</div>
+<script type="text/javascript">
+/**
+ * DATE: 2013年5月3号
+ * URL: http://www.w3cmm.com
+ */
+function getColor() {
+    var colorValue = Math.ceil(Math.random()*16777215).toString(16);
+    if (colorValue.length==5) {
+        colorValue = "0" + colorValue;
+    }
+    return colorValue;
+}
+var Timer = setInterval(function(){
+	var y = Math.random()*100;
+	var x = Math.random()*960;
+	var obj = document.createElement("div");
+	var pushOjb = []
+	obj.style.position = "absolute";
+	obj.style.width = "4px";
+	obj.style.height = "30px";
+	obj.style.background = "red";
+	obj.style.top = document.documentElement.clientHeight + "px";
+	obj.style.left = x + "px";
+	document.body.appendChild(obj);
+	var lightTimer = setInterval(function () {
+	    obj.style.top = obj.offsetTop - 20 + "px";
+	    if (obj.offsetTop < y) {
+	        clearInterval(lightTimer);
+	        document.body.removeChild(obj);
+	        for (var i=0; i<50; i++){
+	            var colorObj = document.createElement("div");
+	            colorObj.style.height = 5 + "px";
+	            colorObj.style.width = 2 + "px";
+	            //colorObj.style.boxShadow = "0 0 3px #feef01";
+	            colorObj.style.position = "absolute";
+	            colorObj.style.left = x + "px";
+	            colorObj.style.top = y + "px";
+	            colorObj.style.background = "#" + getColor();
+	            document.body.appendChild(colorObj);
+	            pushOjb.push(colorObj);
+	            colorObj.speedX = Math.random()*20-10;
+	            colorObj.speedY = Math.random()*20-10;
+	        }
+	        var newTimer = setInterval(function(){
+	            var count = 0;
+	            for (i=0; i<pushOjb.length; i++) {
+	                if(!pushOjb[i]) {
+	                    continue;
+	                }
+	                pushOjb[i].style.left = pushOjb[i].offsetLeft+pushOjb[i].speedX+"px";
+	                pushOjb[i].style.top = pushOjb[i].offsetTop+pushOjb[i].speedY+"px";
+	                pushOjb[i].speedY++
+	                if (pushOjb[i].offsetLeft<0||pushOjb[i].offsetRight>document.documentElement.clientWidth||pushOjb[i].offsetTop>document.documentElement.clientHeight) {
+	                    document.body.removeChild(pushOjb[i]);
+	                    pushOjb[i] = null;
+	                }
+	                count++;
+
+	            }
+	            if (count==0) {
+	                clearInterval(newTimer);
+	            }
+	        },30)
+	    }
+	}, 10)
+},1000)
+document.onclick = function (event) {
+    var event = event || window.event;
+
+}
+</script>
+</body>
+</html>

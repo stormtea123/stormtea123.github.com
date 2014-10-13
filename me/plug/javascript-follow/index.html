@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>鼠标跟随效果</title>
+<style>
+body { font-family:georgia;}
+#follow { width:150px; height:50px; background:red; color:#fff; text-align:center; line-height:50px; } 
+</style>
+<script src="av.js"></script>
+</head>
+<body>
+<div id="follow">Follow Pointer</div>
+<script>
+av.addHandler(window, "load", function() {
+	var object = document.getElementById("follow");
+	object.style.position = "absolute";
+	function eventListener(event) {
+		var pointer = av.getPointerPositionInDocument(event);
+		object.style.left = pointer.x + "px";
+		object.style.top = pointer.y + "px";
+	}
+	av.addHandler(document,"mousemove", eventListener);
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery-Cookie-点击关闭</title>
+<style type="text/css">
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, form, input, textarea, button, fieldset, legend  { margin: 0; padding: 0; }
+body { font-family:'Century Gothic',georgia,Arial; background:#FFF; }
+html,body { font-size:90%; }
+h1,h2,h3,h4 { font-family:'Century Gothic',Microsoft YaHei; }
+button,input,select,textarea { font:14px Arial; vertical-align:middle; }
+ul, ol { list-style: none; }
+/*正文样式*/
+.wrap { width: 750px; margin:0 auto; }
+.caption { padding:30px 0 20px; text-align:center; }
+.caption h1 { font-size:50px; }
+.caption p { line-height:22px; color:red; }
+.beautiful { width:336px; margin:0 auto; position:relative; display:none; }
+.beautiful span { width:30px; height:30px; font-size:28px; font-weight:bold; line-height:30px; text-align:center; color:#fff; background:rgba(0,0,0,0.5); border-radius:15px; cursor:pointer; position:absolute; right:-10px; top:-10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="caption">
+        <h1>Cookie-储存状态</h1>
+        <p>点击关闭，刷新浏览器，美女不显示，清除cookie才能显示</p>
+    </div>
+    <div id="main">
+        <div class="beautiful" id="beautiful"><span id="close">×</span><img src="images/1.jpg" width="336" height="280"></div>
+    </div>
+</div>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+/**
+ * URL : http://www.w3cmm.com
+ * DATE : 2012年12月23日
+ */
+
+jQuery.cookie = function(name, value, options) {
+    if(typeof value != 'undefined') {
+        options = options || {};
+        if(value === null) {
+            value = '';
+            options = $.extend({}, options);
+            options.expires = -1;
+        }
+        //过期时间
+        var expires = '';
+        if(options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+            var date;
+            if(typeof options.expires == 'number') {
+                date = new Date();
+                date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+            } else {
+                date = options.expires;
+            }
+            expires = '; expires=' + date.toUTCString();
+        }
+        //路径
+        var path = options.path ? '; path=' + (options.path) : '';
+        //域名
+        var domain = options.domain ? '; domain=' + (options.domain) : '';
+        //安全标志
+        var secure = options.secure ? '; secure' : '';
+        document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+    } else {
+        var cookieValue = null;
+        if(document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for(var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if(cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+};
+
+//实例应用演示
+$(function () {
+    $beautiful = $("#beautiful");
+    $("#close").bind("click", function () {
+        $beautiful.fadeOut();
+        $.cookie("show", "0");
+    })
+    if ($.cookie("show") == 0) {
+        $beautiful.hide();
+    } else {
+        $beautiful.show();
+    }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery-选项卡切换-插件</title>
+<style type="text/css">
+body, h1, h2, h3, h4, h5, h6, p, ul, blockquote, pre, form, input, textarea, button, fieldset, legend  { margin: 0; padding: 0; }
+body { font-family:'Century Gothic',georgia,Arial; background:#FFF; }
+html,body { font-size:90%; }
+h1,h2,h3,h4 { font-family:'Century Gothic',Microsoft YaHei; }
+button,input,select,textarea { font:14px Arial; vertical-align:middle; }
+ul, ol { list-style: none; }
+/*正文样式*/
+.wrap { width: 750px; margin:0 auto; }
+.caption { padding:30px 0 20px; text-align:center; }
+.caption h1 { font-size:50px; }
+.caption p { color:red; }
+.wrap h2 {  padding:10px 0; font-size:1.5em; text-align:center; }
+.switch-tab { width: 500px; margin:0 auto; border:solid 1px #E41017; }
+.tab-nav { width: 500px; height: 26px; background: #E41017; }
+.tab-nav li { width: 100px; height: 26px; float: left; font-size:14px; line-height:26px; text-align: center; }
+.tab-nav li a { width: 100px; height: 20px; color:#fff; }
+.tab-nav li.current { background: #fff; }
+.tab-nav li.current a { color: black; }
+.tab-content { width: 500px; height: 80px; background: white; }
+.tab-field { display: none; padding:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="caption">
+        <h1>jQuery-选项卡插件</h1>
+        <p>可用作焦点图</p>
+    </div>
+    <h2>鼠标划上去切换</h2>
+    <div id="switch-tab-1" class="switch-tab">
+        <div id="tab-nav-1" class="tab-nav">
+            <ul>
+                <li><a href="#">选项1</a></li>
+                <li><a href="#">选项2</a></li>
+                <li><a href="#">选项3</a></li>
+            </ul>
+        </div>
+        <div id="tab-content-1" class="tab-content">
+            <div class="tab-field">内容1</div>
+            <div class="tab-field">内容2</div>
+            <div class="tab-field">内容3</div>
+        </div>
+    </div>
+    <h2>默认从第二个开始自动切换切换</h2>
+    <div id="switch-tab-2" class="switch-tab">
+        <div id="tab-nav-2" class="tab-nav">
+            <ul>
+                <li><a href="#">选项1</a></li>
+                <li><a href="#">选项2</a></li>
+                <li><a href="#">选项3</a></li>
+            </ul>
+        </div>
+        <div id="tab-content-2" class="tab-content">
+            <div class="tab-field">内容1</div>
+            <div class="tab-field">内容2</div>
+            <div class="tab-field">内容3</div>
+        </div>
+    </div>
+    <h2>鼠标点击切换</h2>
+    <div id="switch-tab-3" class="switch-tab">
+        <div id="tab-nav-3" class="tab-nav">
+            <ul>
+                <li><a href="#">选项1</a></li>
+                <li><a href="#">选项2</a></li>
+                <li><a href="#">选项3</a></li>
+            </ul>
+        </div>
+        <div id="tab-content-3" class="tab-content">
+            <div class="tab-field">内容1</div>
+            <div class="tab-field">内容2</div>
+            <div class="tab-field">内容3</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+;(function ($) {
+    $.fn.extend ({
+        switchTab : function (options) {
+            options = $.extend({
+                nav: null,
+                field: null,
+                mode: "hover",
+                cur: "current",
+                index: 0,
+                auto: true,
+                interval: 3000
+            }, options);
+
+            var obj = $(this);
+            var timer = null;
+            var index = options.index;
+            var $nav = $(options.nav).find("li");
+            var $field = $(options.field);
+            var len = $nav.size();
+
+            //显示区域函数
+            function showField (index) {
+                $nav.eq(index).addClass(options.cur).siblings().removeClass();
+                $field.eq(index).show().siblings().hide();
+            }
+            //初始化第一个
+            showField(index);
+            //绑定鼠标事件
+            $nav.bind(options.mode, function () {
+                index = $nav.index(this);
+                showField(index);
+            });
+            if (options.auto) {
+                //绑定鼠标事件
+                $nav.hover(function(){
+                    clearInterval(timer);
+                },function(){
+                    timer = setInterval(function () {
+                        index++;
+                        if (index == len ) {
+                            index = 0;
+                        }
+                        showField(index);
+                    }, options.interval);
+                }).eq(index).trigger("mouseout");
+            }
+            //返回this,使用方法可链
+            return this;
+        }
+    });
+})(jQuery);
+
+$(function(){
+    $("#switch-tab-1").switchTab({
+        nav: "#tab-nav-1",
+        field:"#tab-content-1 div",
+        auto:false
+    });
+    $("#switch-tab-2").switchTab({
+        nav: "#tab-nav-2",
+        field:"#tab-content-2 div",
+        index: 1
+    });
+    $("#switch-tab-3").switchTab({
+        nav: "#tab-nav-3",
+        field: "#tab-content-3 div",
+        mode:"click",
+        auto:false
+    });
+})
+</script>
+</body>
+</html>

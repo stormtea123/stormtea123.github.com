@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JavaScript-自动切换焦点图</title>
+<style type="text/css">
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, form, input, textarea, button, fieldset, legend, ul, ol, li, dl, dt, dd, th, td { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+html,body { font-size:90%; font-family: Arial; color: #333; }
+h1, h2, h3 { font-family: Microsoft YaHei; }
+/*正文样式*/
+.wrap { width: 750px; margin:0 auto; }
+.caption { padding:30px 0 10px; text-align:center; }
+.caption h1 { font-size:4em; }
+.caption p { line-height:22px; color:red; }
+.slide { width:300px; margin:0 auto; }
+.slide-list { width:300px; height:160px; overflow:hidden; position:relative; }
+.slide-panel { height:160px; overflow:hidden;  position:relative; }
+.slide-panel li { width:300px; height:160px; line-height:160px; font-size:80px; text-align:center; float:left; background:#EEE; border-radius:10px; }
+.nav { height:19px; padding:6px 0; line-height:19px; }
+.slide-pager { text-align:center; overflow:hidden; text-align:center; font-size:0; }
+.slide-pager span { width:10px; height:10px; border-radius:5px; display:inline-block; margin:5px 2px 0; background:#593325; }
+.slide-pager .current { background:#FF5A00; }
+.pre-next { font-size:14px; font-weight:bold; cursor:pointer; }
+.pre { float:left; }
+.next { float:right; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="caption">
+        <h1>JavaScript-自动切换焦点图</h1>
+        <p>原生JavaScript封装一个常用的焦点图效果，支持鼠标滚轮切换</p>
+    </div>
+    <div class="slide" id="slide">
+        <div class="slide-list">
+            <ul class="slide-panel" id="panel">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+        </div>
+        <div class="nav">
+            <div class="pre-next next" id="next">Next&gt;&gt;</div>
+            <div class="pre-next pre" id="pre">&lt;&lt;pre</div>
+            <div class="slide-pager" id="pager">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+/**
+ * URL : http://www.w3cmm.com
+ * DATE : 2012年12月14日
+ */
+var Util = {
+    //选择器
+    $: function(id) {
+        return "string" == typeof(id) ? document.getElementById(id) : id;
+    },
+    //获取序号
+    getIndex: function(current, obj) {
+        for(var i = 0; i < obj.length; i++) {
+            if(obj[i] == current) {
+                return i;
+            }
+        }
+    },
+    //获取兄弟元素
+    siblings: function(el) {
+        var r = [],
+            n = el.parentNode.firstChild;
+        for(; n; n = n.nextSibling) {
+            if(n.nodeType === 1 && n !== el) {
+                r.push(n);
+            }
+        }
+        return r;
+    },
+    //滚轮事件
+    getWheelDelta: function(event) {
+        if(event.wheelDelta) {
+            return event.wheelDelta;
+        } else {
+            return -event.detail * 40;
+        }
+    },
+    //绑定事件
+    addHandler: function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    }
+};
+(function() {
+    function Slide(panel, pager, pre, next) {
+        this.panel = Util.$(panel);
+        this.tagNames = this.panel.getElementsByTagName("li");
+        this.len = this.tagNames.length;
+        this.pagers = Util.$(pager).getElementsByTagName("span");
+        this.panel.style.width = this.tagNames[0].offsetWidth * (this.len) + "px";
+        this.pre = Util.$(pre);
+        this.next = Util.$(next);
+        this.init();
+    };
+    Slide.prototype = {
+        init:function() {
+            var index = 0;
+            //鼠标划上去显示相应的信息
+            var obj = this;
+            for(i = 0; i < obj.len; i++) {
+                obj.tagNames[i].index = obj.pagers[i].index = i;
+                obj.pagers[i].onmouseover = function() {
+                    index = this.index;
+                    obj.showPic(index);
+                }
+            };
+            //显示指定序列的图片
+            obj.showPic = function(index) {
+                //高亮当前按钮
+                var num = Util.getIndex(obj.pagers[index], obj.pagers);
+                var otherNum = Util.siblings(obj.pagers[index]);
+                for(i = 0; i < otherNum.length; i++) {
+                    otherNum[i].className = "";
+                }
+                obj.pagers[num].className = "current";
+                //设置面板移动距离
+                obj.panel.style.left = -index * obj.tagNames[0].offsetWidth + "px";
+            };
+            obj.showPic(index);
+            //上一个
+            obj.pre.onclick = function() {
+                index--;
+                if(index == -1) {
+                    index = obj.len - 1;
+                }
+                obj.showPic(index);
+            }
+            //下一个
+            obj.next.onclick = function() {
+                index++;
+                if(index == obj.len) {
+                    index = 0;
+                }
+                obj.showPic(index);
+            }
+            obj.panel.onmouseover = function() {
+                clearInterval(timer);
+            }
+            obj.panel.onmouseout = function() {
+                obj.autoSwitch();
+            }
+            Util.addHandler(obj.panel, typeof obj.panel.onmousewheel !== "undefined" ? "mousewheel" : "DOMMouseScroll", function(event) {
+                var delta = Util.getWheelDelta(event);
+                if(delta>0) {
+                    index++;
+                    if(index == obj.len) {
+                        index = 0;
+                    }
+                    obj.showPic(index);
+                } else {
+                    index--;
+                    if(index == -1) {
+                        index = obj.len - 1;
+                    }
+                    obj.showPic(index);
+                }
+            })
+            //自动切换
+            obj.autoSwitch = function() {
+                timer = setInterval(function() {
+                    index++;
+                    if(index == obj.len) {
+                        index = 0;
+                    }
+                    obj.showPic(index);
+                }, 3000);
+            };
+            obj.autoSwitch();
+        }
+    };
+    //实例应用
+    new Slide("panel", "pager", "pre", "next");
+})();
+</script>
+
+</body>
+</html>
