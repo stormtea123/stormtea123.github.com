@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "sublime text安装Package Control "
+title: "sublime text常见技巧"
 description: "最简单的安装方法是通过sublime text控制台，通过ctrl+`快捷键调出控制台，打开后，粘贴和你subulime text相应版本的 Python代码到控制台中，敲回车"
 category: "记事本"
 category-substitution: 翻译
