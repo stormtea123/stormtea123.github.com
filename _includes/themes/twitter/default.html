@@ -35,9 +35,11 @@
 <div class="wrap">
     <div class="navbar">
         <ul class="nav">
-            {% assign pages_list = site.pages %}
-            {% assign group = 'navigation' %}
-            {% include JB/pages_list %}
+            <li><a href="/archive.html">Archive</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li class="active"><a href="/pages.html" class="active">Pages</a></li>
+            <li><a href="/tags.html">Tags</a></li>
+            <li><a href="/about.html">Aabout</a></li>
         </ul>
     </div>
     <div class="container">
