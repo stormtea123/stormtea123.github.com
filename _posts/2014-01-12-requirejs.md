@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "optimizer"
+title: "RequireJs"
 description: "The optimizer can be run using Node, Java with Rhino, or in the browser. The requirements for each option"
 category: "记事本"
 category-substitution: 原创
 tags: [RequireJS]
 ---
 
+
+##optimizer
 The optimizer can be run using Node, Java with Rhino, or in the browser. The requirements for each option:
 
 * Node: (preferred) Node 0.4.0 or later.
@@ -23,8 +25,8 @@ If you want to install requirejs locally in a project as an npm package, instead
     npm install requirejs
 
 
-##配置文件
-###示例1
+###配置文件
+####示例1
 
     ({
         mainConfigFile : "js/main.js",
@@ -45,7 +47,7 @@ If you want to install requirejs locally in a project as an npm package, instead
         ]
     })
 
-##配置参数
+###配置参数
 
 * `appDir`：项目目录，相对于参数文件的位置。
 * `baseUrl`：js文件的位置。

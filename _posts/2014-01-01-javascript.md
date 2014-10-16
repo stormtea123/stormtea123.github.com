@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "JavaScript中双叹号(!!)作用"
+title: "JavaScript常见疑惑解答"
 description: "经常看到，整理一下备忘"
 category: "记事本"
 category-substitution: 转载
 tags: [JavaScript]
 ---
 
+
+##JavaScript中双叹号(!!)作用
 经常看到，整理一下备忘
 
     var foo;  
