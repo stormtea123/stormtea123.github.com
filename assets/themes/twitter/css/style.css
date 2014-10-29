@@ -48,9 +48,9 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .tag_box a:hover { background-color: #e5e5e5; }
 .tag_box a.active { background: #57A957; border: 1px solid #4c964d; color: #FFF; }
 /*===*/
-.navbar { padding:10px; }
-.navbar .nav { min-width:120px; float: right; }
-.navbar .nav a { text-decoration:underline; }
+.navbar { position:relative; z-index:5; padding:10px; }
+.nav { position:absolute; top:10px; right:10px; z-index:1; min-width:120px; }
+.nav a { text-decoration:underline; }
 /*===*/
 .sidebar { min-width:430px; height:100%; position:fixed; left:0; top:0; background:url("../images/sidebar.jpg") no-repeat 0 0; background-size:100% 100%; }
 .brand { position:absolute; top:80px; right:35px; }
@@ -76,7 +76,7 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .page_bd blockquote { padding:8px; margin:1.4em 0 3px 0; border-left:solid 4px #FF0000; background:#FFFFCC; font-size:86%; }
 .page_bd blockquote:before { width:70px; margin:-1.5em 0 0.5em; padding:0 1em; display:block; content:"note"; border:solid 1px #FF0000; background:#FFF; font-weight:bold; color:#FF0000; }
 .page_bd blockquote p { text-indent:0; }
-.page_bd pre{ margin:10px 0; overflow:auto; padding:0.8em 1em; background:#F8F8F8; border:solid 1px #bbb; line-height:1.4; color:#333 }
+.page_bd pre{ margin:10px 0; overflow:auto; padding:0.8em 1em; background:#f7f7f7; line-height:1.4; color:#333 }
 .page_bd p code { padding: 2px 4px; font-size: 90%; color: #c7254e; white-space: nowrap; background-color: #f9f2f4; border-radius: 4px; }
 /*===*/
 .article-item { padding:2px 0; }
