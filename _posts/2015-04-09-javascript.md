@@ -49,6 +49,42 @@ For just a few items, the difference is small. If you have many items you should
 http://stackoverflow.com/questions/767821/is-else-if-faster-than-switch-case
 
 
+组运算符
+
+    var global = (function() { 
+        return this || (1, eval)('this'); 
+    }());
+
+    global = Function('return this;')()
+
+Function()构造函数 
+
+使用构造函数Function()创建的函数不使用词法作用域，相反的，它们总是被顶级函数来编译
+
+    var y = "global";
+    function constructFunction() {
+        var y = "local";
+        return new Function("return y;");
+    }
+    function constFunction() {
+            var y = "local";
+            //函数直接量 
+            var f = function() {
+                return y;
+            };
+            return f;
+        }
+    console.log(constructFunction()());
+    console.log(constFunction()());
+
+    var x = 'outer';
+    (function() {
+      var x = 'inner';
+      eval('console.log("direct call: " + x)'); 
+      (1,eval)('console.log("indirect call: " + x)'); 
+    })();
+
+
 
 
 
