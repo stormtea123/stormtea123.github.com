@@ -49,7 +49,6 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .tag_box a.active { background: #57A957; border: 1px solid #4c964d; color: #FFF; }
 /*===*/
 .navbar { position:relative; z-index:5; padding:10px; }
-.nav { position:absolute; top:10px; right:10px; z-index:1; min-width:120px; }
 .nav a { text-decoration:underline; }
 /*===*/
 .sidebar { min-width:430px; height:100%; position:fixed; left:0; top:0; background:url("../images/sidebar.jpg") no-repeat 0 0; background-size:100% 100%; }
@@ -57,7 +56,6 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .me { width:150px; position:absolute; top:150px; right:50px; opacity:0.8; }
 .earth { height:147px; position:fixed; left:0; bottom:-5px; }
 .earth img { max-width:100%; }
-.side { margin-left:460px; max-width:750px; overflow:hidden; }
 /*===*/
 .main { overflow:auto; padding-bottom:20px; }
 .main h1 { font-size:3em; font-weight:bold; padding:20px 0 10px; }
@@ -85,6 +83,16 @@ pre,code { font:13px/1.4 Monaco, Menlo, Consolas, "Courier New", monospace; }
 .article-summary { padding-left:40px; }
 /*===*/
 .footer { padding:10px 0 30px; border-top:solid 1px #eee; font-size:12px; }
+@media screen and (min-width: 920px) {
+    .nav { position:absolute; top:10px; right:10px; z-index:1; min-width:120px; }
+    .side { margin-left:460px; max-width:750px; overflow:hidden; }
+}
+@media screen and (max-width: 920px) {
+    .navbar { background:#eee; }
+    .container {padding:10px;}
+    .sidebar {display:none;}
+    .page-header { display:none; }
+}
 /*代码高亮*/
 .pln { color: #000 }
 @media screen {
